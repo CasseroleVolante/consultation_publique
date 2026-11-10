@@ -96,14 +96,26 @@ const formulaire3 =
 "https://grist.numerique.gouv.fr/o/docs/forms/tFKnpCxCEZ6XevKL8MMCAm/16";
 
 const params = new URLSearchParams(window.location.search);
-const repondant = params.get("Repondant");
+
+// Accepte REP-17 ou 17
+const valeur = params.get("Repondant");
+
+let idRepondant = null;
+
+if (valeur && /^\d+$/.test(valeur)) {
+  idRepondant = valeur;
+} else if (valeur && /^REP-\d+$/.test(valeur)) {
+  idRepondant = valeur.substring(4);
+}
 
 const zone = document.getElementById("identifiant");
 const actions = document.getElementById("actions");
 
-if (repondant && /^REP-\d+$/.test(repondant)) {
+if (idRepondant) {
 
-  zone.textContent = "Votre identifiant : " + repondant;
+  const identifiantAffiche = "REP-" + idRepondant;
+
+  zone.textContent = "Votre identifiant : " + identifiantAffiche;
   actions.hidden = false;
 
 } else {
@@ -115,12 +127,12 @@ if (repondant && /^REP-\d+$/.test(repondant)) {
 
 function ouvrirFormulaire2() {
   window.location.href =
-    formulaire2 + "?Repondant=" + encodeURIComponent(repondant);
+    formulaire2 + "?Repondant=" + encodeURIComponent(idRepondant);
 }
 
 function ouvrirFormulaire3() {
   window.location.href =
-    formulaire3 + "?Repondant=" + encodeURIComponent(repondant);
+    formulaire3 + "?Repondant=" + encodeURIComponent(idRepondant);
 }
 
 </script>
