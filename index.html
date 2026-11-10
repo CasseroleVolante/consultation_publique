@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Votre consultation publique</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f5f7;
+      margin: 0;
+      padding: 30px 15px;
+      color: #222;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 50px auto;
+      background: white;
+      padding: 35px 25px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      color: #17406d;
+      font-size: 26px;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .identifiant {
+      margin: 25px 0;
+      padding: 12px;
+      background: #edf4fa;
+      border-radius: 6px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      margin: 15px 0;
+      border: none;
+      border-radius: 6px;
+      background: #1769aa;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #104c80;
+    }
+
+    .erreur {
+      color: #b42318;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Votre consultation publique</h1>
+
+  <p>Bienvenue ! Que souhaitez-vous faire ?</p>
+
+  <div id="identifiant" class="identifiant"></div>
+
+  <div id="actions" hidden>
+    <button onclick="ouvrirFormulaire2()">
+      Répondre aux procès-verbaux
+    </button>
+
+    <button onclick="ouvrirFormulaire3()">
+      Proposer un nouveau procès-verbal
+    </button>
+  </div>
+
+</div>
+
+<script>
+
+const formulaire2 =
+"https://grist.numerique.gouv.fr/o/docs/forms/9iJEQM5m4W3vpA9QJenaia/15";
+
+const formulaire3 =
+"https://grist.numerique.gouv.fr/o/docs/forms/tFKnpCxCEZ6XevKL8MMCAm/16";
+
+const params = new URLSearchParams(window.location.search);
+const repondant = params.get("Repondant");
+
+const zone = document.getElementById("identifiant");
+const actions = document.getElementById("actions");
+
+if (repondant && /^REP-\d+$/.test(repondant)) {
+
+  zone.textContent = "Votre identifiant : " + repondant;
+  actions.hidden = false;
+
+} else {
+
+  zone.innerHTML =
+    '<span class="erreur">Identifiant manquant ou incorrect.</span>';
+
+}
+
+function ouvrirFormulaire2() {
+  window.location.href =
+    formulaire2 + "?Repondant=" + encodeURIComponent(repondant);
+}
+
+function ouvrirFormulaire3() {
+  window.location.href =
+    formulaire3 + "?Repondant=" + encodeURIComponent(repondant);
+}
+
+</script>
+
+</body>
+</html>
