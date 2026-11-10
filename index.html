@@ -58,9 +58,24 @@
       background: #104c80;
     }
 
+    .bouton-fini {
+      background: #4b5563;
+      margin-top: 30px;
+    }
+
+    .bouton-fini:hover {
+      background: #374151;
+    }
+
     .erreur {
       color: #b42318;
       font-weight: bold;
+    }
+
+    .confirmation {
+      color: #176b3a;
+      font-weight: bold;
+      margin-top: 25px;
     }
   </style>
 </head>
@@ -71,11 +86,12 @@
 
   <h1>Votre consultation publique</h1>
 
-  <p>Bienvenue ! Que souhaitez-vous faire ?</p>
+  <p id="bienvenue">Bienvenue ! Que souhaitez-vous faire ?</p>
 
   <div id="identifiant" class="identifiant"></div>
 
   <div id="actions" hidden>
+
     <button onclick="ouvrirFormulaire2()">
       Répondre aux procès-verbaux
     </button>
@@ -83,12 +99,21 @@
     <button onclick="ouvrirFormulaire3()">
       Proposer un nouveau procès-verbal
     </button>
+
+    <button class="bouton-fini" onclick="terminer()">
+      J'ai terminé
+    </button>
+
+  </div>
+
+  <div id="confirmation" hidden class="confirmation">
+    Merci pour votre participation !<br>
+    Vous avez terminé votre consultation.
   </div>
 
 </div>
 
 <script>
-
 
 const formulaire2 =
 "https://grist.numerique.gouv.fr/o/docs/forms/9iJEQM5m4W3vpA9QJenaia/15";
@@ -98,15 +123,12 @@ const formulaire3 =
 
 const params = new URLSearchParams(window.location.search);
 
-// Récupération depuis l'URL
 let repondant = params.get("Repondant");
 
-// Vérification de l'identifiant reçu
 if (repondant && /^REP-\d+$/.test(repondant)) {
   repondant = repondant.substring(4);
 }
 
-// Si l'URL ne contient rien, récupération de la session
 if (!repondant || !/^\d+$/.test(repondant)) {
   repondant = sessionStorage.getItem("Repondant");
 }
@@ -116,7 +138,6 @@ const actions = document.getElementById("actions");
 
 if (repondant && /^\d+$/.test(repondant)) {
 
-  // Mémorisation pour le retour depuis Grist
   sessionStorage.setItem("Repondant", repondant);
 
   zone.textContent = "Votre identifiant : REP-" + repondant;
@@ -145,6 +166,17 @@ function ouvrirFormulaire3() {
     formulaire3 + "?Repondant=" + encodeURIComponent(repondant);
 }
 
+function terminer() {
+
+  sessionStorage.removeItem("Repondant");
+
+  actions.hidden = true;
+  zone.hidden = true;
+
+  document.getElementById("bienvenue").hidden = true;
+  document.getElementById("confirmation").hidden = false;
+
+}
 
 </script>
 
