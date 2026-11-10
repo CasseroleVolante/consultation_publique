@@ -140,7 +140,6 @@ if (repondant && /^\d+$/.test(repondant)) {
 
   sessionStorage.setItem("Repondant", repondant);
 
-  zone.textContent = "Votre identifiant : REP-" + repondant;
   actions.hidden = false;
 
 } else {
@@ -171,7 +170,6 @@ function terminer() {
   sessionStorage.removeItem("Repondant");
 
   actions.hidden = true;
-  zone.hidden = true;
 
   document.getElementById("bienvenue").hidden = true;
   document.getElementById("confirmation").hidden = false;
