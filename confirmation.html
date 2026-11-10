@@ -86,7 +86,10 @@ const formulaire3 =
 "https://grist.numerique.gouv.fr/o/docs/forms/tFKnpCxCEZ6XevKL8MMCAm/16";
 
 const params = new URLSearchParams(window.location.search);
-const repondant = params.get("Repondant");
+const repondantBrut = params.get("Repondant");
+const repondant = repondantBrut
+  ? decodeURIComponent(repondantBrut).trim()
+  : null;
 
 const zone = document.getElementById("identifiant");
 const actions = document.getElementById("actions");
